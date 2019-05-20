@@ -1,0 +1,215 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name=description content="">
+<meta name=viewport content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<script src="js/jquery-3.4.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<title>登录页面</title>
+<style>
+body {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        line-height: 1.428571429;
+        color: #333333;
+        background-color: #222222;
+    }
+        .pg_header{
+            position: fixed;
+            height: 48px;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: #36292f; 
+            line-height: 48px;
+        }
+        .pg_dl{
+            left: 400px;
+            display: inline-block;
+            padding: 0 40px;
+            color: white;
+        }
+        .main_bar{
+            width:1350px;
+            height:350px;
+            margin-top:10%;
+        }       
+        #login_form{
+            width:40%;
+            height:100%;
+            background-color:#222222;
+            margin:0 auto;
+        }
+        .title{
+            width:100%;
+            height:55px;
+            color:#ffffff;
+            border-bottom:0 solid #ffffff;
+            font-size:20pt;
+            font-family:"微软雅黑";
+            line-height:55px;
+            text-align:center;              
+        }
+            #form_widget{
+                width:100%;
+                height:295px;
+                background-color:#222222;
+            }
+            img{
+                height:35px;
+                width:35px;
+            }
+            .txt{
+                display:block;/*设置为独立块（换行）*/
+                width:70%;
+                margin:0 auto;
+                height:35px;
+                font-size:15pt;
+                border-radius:5px;/*设置圆角样式*/
+                border:0;
+                padding-left:8px;
+            }
+            #vcode{
+                height:35px;
+                width:40%;
+                font-size:15pt;
+                margin-left:15%;
+                border-radius:5px;
+                border:0;
+                padding-left:8px;
+            }
+            #code{
+                color:#fff;/*字体颜色白色*/
+                background-color:#222222;   
+                font-size:20pt;
+                font-family:"华康娃娃体W5";
+                padding:5px 35px 10px 35px;
+                margin-left:5%;     
+                cursor:pointer;
+            }
+            #search_pass_link{
+                width:70%;
+                text-align:right;
+                margin:0 auto;
+                padding:5px;
+            }
+            /*层级选择器*/
+            #search_pass_link a{
+                color:#c27c88;
+                text-decoration:none;               
+            }
+            /*伪类*/
+            #search_pass_link a:hover{
+                color:#de1c31;
+                text-decoration:underline;
+            }
+            .btn{
+                width:70%;
+                margin-left:15%;
+                height:40px;
+                border:0;
+                font-size:14pt;
+                font-family;"微软雅黑";
+                background-color:#bbb5ac;
+                color:#ffffff;
+                cursor:pointer;/*设置指针鼠标的样式*/
+                border-radius:20px;/*设置圆角样式*/
+                border:0;
+            }   
+            #copyright{
+                width:100%;
+                text-align:center;
+                padding-top:20px;
+                font-family:"微软雅黑";
+                color:#9d9d9d;
+            }
+        </style>
+    </head>
+<body leftmargin="0" onload="changeImg()">
+<div>
+<div class = "pg_header">
+ <nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <span class="navbar-brand">网站名</span> 
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+            <li class="text-center"><a href="#">登录</a></li>
+      </ul> 
+    </div>
+  </div>
+</nav>   
+</div>
+    <div class="main_bar"> 
+        <div id="login_form">
+            <div class="title">
+                登录                 
+            </div>  
+                <form action="main.html" onsubmit="return check()">
+                <div id="form_widget">
+                    <br>
+                    <input type="text" placeholder="请输入账号" id="box_name" class="txt" value="" onfocus="this.value=''" onblur="if(this.value=='')this.value=''"/>
+                    <br>
+                    <input type="password" placeholder="请输入密码" id="box_pass" class="txt" value="" onfocus="this.value=''" onblur="if(this.value=='')this.value=''"/>
+                    <br>
+                    <input type="text" id="vcode" placeholder="验证码" value="验证码" onfocus="this.value=''" onblur="if(this.value=='')this.value=''"/><span id="code" title="看不清，换一张"></span>
+                    <div id="search_pass_link">
+                        <a href="#">忘记密码</a>
+                    </div>                  
+                    <input  type="submit" value="登录" class="btn" onmouseover="this.style.backgroundColor='#81776e'" onmouseout="this.style.backgroundColor='#bbb5ac'">
+                    <br>
+                    <div id="copyright">
+                        Power By GY &copy;CopyRight 2019
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body> 
+<script type="text/javascript">
+        var code;//声明一个变量用于存储生成的验证码
+        document.getElementById("code").onclick=changeImg;
+        function changeImg(){
+            //alert("换图片");
+            var arrays=new Array(
+                '1','2','3','4','5','6','7','8','9','0',
+                'a','b','c','d','e','f','g','h','i','j',
+                'k','l','m','n','o','p','q','r','s','t',
+                'u','v','w','x','y','z',
+                'A','B','C','D','E','F','G','H','I','J',
+                'K','L','M','N','O','P','Q','R','S','T',
+                'U','V','W','X','Y','Z'             
+            );
+            code='';//重新初始化验证码
+            //alert(arrays.length);
+            //随机从数组中获取四个元素组成验证码
+            for(var i=0;i<4;i++){
+            //随机获取一个数组的下标
+                var r=parseInt(Math.random()*arrays.length);
+                code+=arrays[r];
+                //alert(arrays[r]);
+            }
+            //alert(code);
+            document.getElementById('code').innerHTML=code;//将验证码写入指定区域
+        }       
+        
+        //效验验证码(表单被提交时触发)
+        function check(){
+            //获取用户输入的验证码
+            var input_code=document.getElementById('vcode').value;
+            //alert(input_code+"----"+code);
+            if(input_code.toLowerCase()==code.toLowerCase())
+            {
+                //验证码正确(表单提交)
+                return true;
+            }
+            alert("请输入正确的验证码!");
+            //验证码不正确,表单不允许提交
+            return false;
+        }
+</script>   
+</html>
