@@ -71,14 +71,46 @@ router.get('/row', function(req, res, next) {
   })
 });
 
+//
+router.get('/searchRow', function(req, res, next) {
+  let movieName = req.query.movieName
+  let cinemaName = req.query.cinemaName
+  let playday = req.query.playday
+  let playtime = req.query.playtime
+
+  let sql = `SELECT cinemaName,movieName,date_format(playday, '%Y-%c-%d') as playday,playtime,language,playroom,price,seat FROM row WHERE`
+  if (movieName) {
+    sql += ` movieName='${movieName}'`
+  }
+  if (cinemaName) {
+    sql += ` AND cinemaName='${cinemaName}'`
+  }
+  if (playday) {
+    sql += ` AND playday='${playday}'`
+  }
+  if (playtime) {
+    sql += ` AND playtime='${playtime}'`
+  }
+  console.log(sql)
+
+  connection.query(sql, (errors, results) => {
+    if (errors) {
+      console.log(errors)
+      res.json({result: {code: 2000, message: '数据库异常'}});
+    } else {
+      results = JSON.parse(JSON.stringify(results))
+      res.json({result: {code: 200, data: results}})
+    }
+  })
+});
+
 router.get('/order', function(req, res, next) {
   let userName = req.query.userName
   let movieName = req.query.movieName
   let cinemaName = req.query.cinemaName
   let price = req.query.price
-  let paytime = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate()
 
-  let sql = `INSERT INTO order(userName, movieName, cinemaName, price, paytime) VALUES('${userName}', '${movieName}', '${cinemaName}', '${price}', '${paytime}')`
+  let sql = `INSERT INTO order(userName, movieName, cinemaName, price, paytime) VALUES('${userName}', '${movieName}', '${cinemaName}', '${price}', 'date_format(NOW(), '%Y-%c-%d %h:%i:%s')')`
   connection.query(sql, (errors, results) => {
     if (errors) {
       console.log(errors)
