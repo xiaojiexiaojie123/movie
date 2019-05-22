@@ -36,6 +36,26 @@ router.get('/cmovie', function(req, res, next) {
 });
 
 // 用户接口
+router.get('/register', function(req, res, next) {
+  let userName = req.query.userName
+  let password = req.query.password
+  let userSex = req.query.userSex
+  let telephone = req.query.telephone
+  let eMail = req.query.eMail
+
+  let sql = `INSERT INTO(userName,password,userSex,telephone,e-mail) VALUES('${userName}','${password}','${userSex}','${telephone}','${eMail}')`
+
+  connection.query(sql, (errors, results) => {
+    if (errors) {
+      console.log(errors)
+      res.json({result: {code: 2000, message: '数据库异常'}});
+    } else {
+      res.json({result: {code: 200, data: results}})
+    }
+  })
+});
+
+// 用户接口
 router.get('/users', function(req, res, next) {
   let userName = req.query.userName
   let password = req.query.password
